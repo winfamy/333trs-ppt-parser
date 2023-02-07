@@ -1,7 +1,8 @@
 .vscode/
 
 # so we dont publish ppts
-.files/
+files/
+files/**
 
 
 # Byte-compiled / optimized / DLL files
