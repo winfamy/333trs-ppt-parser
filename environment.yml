@@ -1,0 +1,4 @@
+name: ppt-parser
+channels:
+  - defaults
+prefix: /home/grady/.python/anaconda3/envs/ppt-parser
