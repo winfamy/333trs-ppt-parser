@@ -13,10 +13,11 @@ def main_menu():
     selected_index = terminal_menu.show()
 
     if options[selected_index] == MENU_MESSAGES["parse"]:
-        validate_controller.validate_controller()
+        input_path = input("Path where PPTX and CTS document are located: ")
+        parse_controller.parse_controller(input_path)
 
     elif options[selected_index] == MENU_MESSAGES["validate"]:
-        parse_controller.parse_controller()
-        
+        validate_controller.validate_controller()
+
     elif options[selected_index] == MENU_MESSAGES["exit"]:
         exit_controller.exit_controller()
