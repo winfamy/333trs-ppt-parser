@@ -3,6 +3,9 @@
 # so we dont publish ppts
 files/
 files/**
+src/scratch/
+src/scratch/**
+src/scratch.py
 
 
 # Byte-compiled / optimized / DLL files
