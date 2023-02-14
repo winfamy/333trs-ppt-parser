@@ -4,7 +4,7 @@
 1. Install conda (https://conda.io/projects/conda/en/latest/user-guide/install/index.html)
 2. Import conda environment
 ```bash
-conda env -n <ENVNAME> --file conda-environment.yml
+conda env create -n <ENVNAME> --file conda-environment.yml
 ```
 
 ## Running
