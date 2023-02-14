@@ -57,7 +57,8 @@ class PPTParser:
         with open(csv_filepath, "w") as csvfile:
             csv_writer = csv.writer(
                 csvfile, delimiter='|', quotechar='"', quoting=csv.QUOTE_ALL)
-            for slide_num in extracted_text.keys():
+            sorted_keys = sorted(extracted_text.keys(), key=lambda x: int(x))
+            for slide_num in sorted_keys:
                 for text_entry in extracted_text[slide_num]:
                     # exclude any entries that are empty
                     if (len(text_entry) == 0):
