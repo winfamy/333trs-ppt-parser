@@ -16,3 +16,6 @@ python3 src/
 ## Todo
 - [ ] Parse tables in feature output
 - [ ] Parse bulleted / numbered lists in feature output
+- [ ] Add CTS-based PowerPoint files validation
+- [ ] Clean up dependencies
+- [ ] Document code w/ docstring comments
