@@ -12,3 +12,7 @@ Execute the code using the `python3` command (on Linux, your mileage on Windows 
 ```bash
 python3 src/
 ```
+
+## Todo
+- [ ] Parse tables in feature output
+- [ ] Parse bulleted / numbered lists in feature output

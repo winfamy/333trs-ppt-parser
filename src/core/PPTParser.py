@@ -20,7 +20,7 @@ class PPTParser:
         return list(self.unpack_dir.glob("ppt/slides/*.xml"))
 
     # returns a dictionary of the text in a {title: [content]} format from the given filepath of a slide XML file
-    def extract_text_slide_filepath(self, slide_filepath: Path) -> dict:
+    def extract_text_slide_filepath(self, slide_filepath: Path) -> dict | None:
         # remove "slide" from slide12 to isolated the slide's number
         slide_num = slide_filepath.stem.replace("slide", "")
 
@@ -30,7 +30,7 @@ class PPTParser:
         p_tags = root.findall(".//a:p", namespaces=root.nsmap)
         text_entries = []
 
-        # for each p-tag, discover internal p tags to rebuild the "full" string
+        # for each p-tag, discover internal p tags to rebuild the "full"/displayed string
         for p_tag in p_tags:
             combined_text = ""
             t_tags = p_tag.findall(".//a:t", namespaces=root.nsmap)
@@ -42,7 +42,7 @@ class PPTParser:
         if len(text_entries) > 0:
             return {slide_num: text_entries}
 
-    def extract_text(self):
+    def extract_text(self) -> None:
         extracted_text = {}
         slide_paths = self.get_slide_filepaths()
         for path in slide_paths:
@@ -52,7 +52,7 @@ class PPTParser:
 
         self.write_extracted_text_to_csv(extracted_text)
 
-    def write_extracted_text_to_csv(self, extracted_text: dict):
+    def write_extracted_text_to_csv(self, extracted_text: dict) -> None:
         csv_filepath = str(self.unpack_dir) + ".csv"
         with open(csv_filepath, "w") as csvfile:
             csv_writer = csv.writer(
