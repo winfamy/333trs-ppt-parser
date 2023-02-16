@@ -24,6 +24,6 @@ def parse_controller(in_path='.'):
     if file_action_to_take == "text":
         parser.extract_text()
     elif file_action_to_take == "features":
-        pass
+        parser.extract_features()
     else:
         exit()
