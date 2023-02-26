@@ -20,10 +20,10 @@ Currently, it supports parsing two types from a slide's notes:
 1. Lists (with custom separators)
 2. Strings
 
-An example PowerPoint that can be used with the notes parsing can be found at [PowerPoint Parser Sample.pptx](reference-files/PowerPoint Parser Sample.pptx).
+An example PowerPoint that can be used with the notes parsing can be found at [Powerpoint-Parser-Sample.pptx](reference-files/Powerpoint-Parser-Sample.pptx).
 Its parsed outputs can be found at 
-- JSON: [PowerPoint Parser Sample.json](./reference-files/PowerPoint Parser Sample.json)
-- CSV: [PowerPoint Parser Sample.csv](./reference-files/PowerPoint Parser Sample.csv)
+- JSON: [Powerpoint-Parser-Sample.json](./reference-files/Powerpoint-Parser-Sample.json)
+- CSV: [Powerpoint-Parser-Sample.csv](./reference-files/Powerpoint-Parser-Sample.csv)
 
 ## Todo
 - [X] Parse tables in feature output
