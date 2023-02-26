@@ -1,4 +1,4 @@
-# Usage Instructions
+# Instructions
 
 ## Prerequisites
 1. Install conda (https://conda.io/projects/conda/en/latest/user-guide/install/index.html)
@@ -12,6 +12,18 @@ Execute the code using the `python3` command (on Linux, your mileage on Windows 
 ```bash
 python3 src/
 ```
+
+## Usage
+This will extract any text from chosen PowerPoint files located in the directory specified. You can choose whether you'd like your output in CSV or JSON. JSON output will attempt to contain more semantic data (bulleted list content, etc) as well as a slide's raw text.
+Notes parsing is done with a specific format defined in (src/core/NotesParser.py) under `SlideNotesParser.labels`. This isn't really well-written and extending it may be an absolute pain. 
+Currently, it supports parsing two types from a slide's notes:
+1. Lists (with custom separators)
+2. Strings
+
+An example PowerPoint that can be used with the notes parsing can be found at (reference-files/PowerPoint Parser Sample.pptx).
+Its parsed outputs can be found at 
+- JSON: (reference-files/PowerPoint Parser Sample.json)
+- CSV: (reference-files/PowerPoint Parser Sample.csv)
 
 ## Todo
 - [X] Parse tables in feature output
