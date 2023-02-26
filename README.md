@@ -14,7 +14,9 @@ python3 src/
 ```
 
 ## Todo
-- [ ] Parse tables in feature output
+- [X] Parse tables in feature output
+- [X] Add basic notes parsing
+    - [X] Add web scraping
 - [ ] Parse bulleted / numbered lists in feature output
 - [ ] Add CTS-based PowerPoint files validation
 - [ ] Clean up dependencies
