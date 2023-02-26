@@ -9,12 +9,14 @@ class PPTParser:
     def __init__(self, filepath: Path):
         self.filepath = filepath
         self.unpack_dir = None
+        self.parse_mode = None
 
     # unzips the file specified in the constructor
-    def unpack_file(self) -> None:
+    def unpack_file(self) -> str:
         with ZipFile(self.filepath) as zFile:
             self.unpack_dir = self.filepath.parent / self.filepath.stem
             zFile.extractall(path=self.unpack_dir)
+        return self.unpack_dir
 
     # returns a list of the slide filepaths from the unpacked dir
     def get_slide_filepaths(self) -> list:
@@ -23,7 +25,7 @@ class PPTParser:
     # returns a dictionary of the text in a {title: [content]} format from the given filepath of a slide XML file
     def extract_text_slide_filepath(self, slide_filepath: Path) -> dict:
         # remove "slide" from slide12 to isolated the slide's number
-        slide_num = slide_filepath.stem.replace("slide", "")
+        slide_num = slide_filepath.stem
 
         # lxml api allows parsing from python Path objects directly
         tree = etree.parse(slide_filepath)
@@ -53,6 +55,7 @@ class PPTParser:
         return combined_text
 
     def extract_text(self) -> None:
+        self.parse_mode = "text"
         extracted_text = {}
         slide_paths = self.get_slide_filepaths()
         extracted_text = self._extract_text(slide_paths)
@@ -73,7 +76,7 @@ class PPTParser:
         with open(csv_filepath, "w") as csvfile:
             csv_writer = csv.writer(
                 csvfile, delimiter='|', quotechar='"', quoting=csv.QUOTE_ALL)
-            sorted_keys = sorted(extracted_text.keys(), key=lambda x: int(x))
+            sorted_keys = sorted(extracted_text.keys(), key=lambda x: int(x.replace("slide", "")))
             for slide_num in sorted_keys:
                 for text_entry in extracted_text[slide_num]:
                     # exclude any entries that are empty
@@ -86,7 +89,7 @@ class PPTParser:
 
                     csv_writer.writerow([slide_num, text_entry])
 
-    def write_feature_dict_to_json(self, feature_dict):
+    def write_feature_dict_to_json(self, feature_dict) -> None:
         for slide_num in feature_dict["text"].keys():
             text_entries = feature_dict["text"][slide_num]
             for text_entry in text_entries:
@@ -99,7 +102,7 @@ class PPTParser:
         with open(json_filepath, "w") as jsonfile:
             jsonfile.write(json.dumps(feature_dict))
 
-    def extract_table_features(self, slide_paths):
+    def extract_table_features(self, slide_paths) -> dict:
         all_extracted_tables = {}
         for slide_path in slide_paths:
             extracted_tables = self.extract_table_slide_filepath(slide_path)
@@ -110,7 +113,7 @@ class PPTParser:
 
     def extract_table_slide_filepath(self, slide_filepath):
         # remove "slide" from slide12 to isolated the slide's number
-        slide_num = slide_filepath.stem.replace("slide", "")
+        slide_num = slide_filepath.stem
 
         # lxml api allows parsing from python Path objects directly
         tree = etree.parse(slide_filepath)
@@ -138,12 +141,39 @@ class PPTParser:
         if (len(extracted_tables) > 0):
             return {slide_num: extracted_tables}
 
+    def extract_bullet_features(self, slide_paths: list[Path]) -> dict:
+        all_extracted_bullets = {}
+        for slide_path in slide_paths:
+            extracted_bullets = self.extract_bullet_slide_filepath(slide_path)
+            if extracted_bullets is not None:
+                all_extracted_bullets.update(extracted_bullets)
+
+        return all_extracted_bullets
+
+    def extract_bullet_slide_filepath(self, slide_filepath):
+        # remove "slide" from slide12 to isolated the slide's number
+        slide_num = slide_filepath.stem
+
+        # lxml api allows parsing from python Path objects directly
+        tree = etree.parse(slide_filepath)
+        root = tree.getroot()
+
+        extracted_bullets = []
+        paragraphs = root.findall(".//a:p", namespaces=root.nsmap)
+
+        if (len(extracted_bullets) > 0):
+            return {slide_num: extracted_bullets}
+
     def extract_features(self) -> None:
+        self.parse_mode = "features"
+
         # 1. pull text
         slide_paths = self.get_slide_filepaths()
         extracted_text = self._extract_text(slide_paths)
+
         # 2. pull defined features
         extracted_tables = self.extract_table_features(slide_paths)
+        extracted_bullets = self.extract_bullet_features(slide_paths)
 
         # 3. build json document
         feature_dict = {"text": extracted_text, "tables": extracted_tables}
