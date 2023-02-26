@@ -32,6 +32,8 @@ def parse_controller(in_path='.'):
     else:
         exit()
 
+    out_file = str(unpack_dir) + \
+        (".csv" if file_action_to_take == "text" else ".json")
     should_parse_notes = parse_slide_notes_menu.parse_slide_notes_menu() == "yes"
     all_note_content = {}
     if should_parse_notes:
@@ -65,8 +67,8 @@ def parse_controller(in_path='.'):
                 jsonfile.seek(0)
                 jsonfile.write(json.dumps(json_out))
                 jsonfile.truncate()
-
     else:
+        print(f"Output written to {out_file}")
         exit()
 
     should_scrape_references = scrape_web_references_menu.scrape_web_references_menu() == "yes"
@@ -109,4 +111,7 @@ def parse_controller(in_path='.'):
                 jsonfile.truncate()
 
     else:
+        print(f"Output written to {out_file}")
         exit()
+
+    print(f"Output written to {out_file}")
