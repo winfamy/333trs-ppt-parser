@@ -22,8 +22,8 @@ Currently, it supports parsing two types from a slide's notes:
 
 An example PowerPoint that can be used with the notes parsing can be found at [PowerPoint Parser Sample.pptx](reference-files/PowerPoint Parser Sample.pptx).
 Its parsed outputs can be found at 
-- JSON: [PowerPoint Parser Sample.json](reference-files/PowerPoint Parser Sample.json)
-- CSV: [PowerPoint Parser Sample.csv](reference-files/PowerPoint Parser Sample.csv)
+- JSON: [PowerPoint Parser Sample.json](./reference-files/PowerPoint Parser Sample.json)
+- CSV: [PowerPoint Parser Sample.csv](./reference-files/PowerPoint Parser Sample.csv)
 
 ## Todo
 - [X] Parse tables in feature output
